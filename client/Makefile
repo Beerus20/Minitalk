@@ -1,26 +1,26 @@
-NAME			= client 
+NAME			= client
+
 FILES			= client.c
 OBJS			= $(FILES:%.c=%.o)
+
+FUNCTIONS		= ../ft_mtlk_utils.o
 PRINTF			= ../printf
 
 CC				= cc
-CFLAGS			= 
+CFLAGS			=
 
 all				: $(NAME)
 
 %.o				: %.c
 					$(CC) -c $< -o $@
 
-run\:%			:
-					./client $(subst run:,,$@)
+$(NAME)			: $(OBJS)
+					$(CC) $(CFLAGS) $(OBJS) $(FUNCTIONS) -L $(PRINTF) -lftprintf -o $@
 
-$(NAME)			: $(OBJS) printf
-					$(CC) $(CFLAGS) $(OBJS) -L $(PRINTF) -lftprintf -o $@
-
-clean			: 
+clean			:
 					rm -rf $(OBJS)
 
-fclean			:
+fclean			: clean
 					rm -rf $(NAME)
 
 re				: fclean all

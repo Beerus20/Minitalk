@@ -1,45 +1,42 @@
-NAME_1	= server 
-NAME_2	= client 
+NAME	= minitalk
 
-ARGS	?= 123
+PID		?= ""
+MESS	?= ""
 
 PRINTF			= ./printf
-SERVER_FILES	= server.c
-CLIENT_FILES	= client.c
-
-LIB_PRINTF		= libftprintf.a
-SERVER_OBJS		= $(SERVER_FILES:%.c=%.o)
-CLIENT_OBJS		= $(CLIENT_FILES:%.c=%.o)
+FILES			= ft_mtlk_utils.c
+OBJS			= $(FILES:%.c=%.o)
 
 CC				= cc
-CFLAGS			= 
+CFLAGS			= -Wall -Wextra -Werror
 
-all				: $(NAME_1) $(NAME_2)
+all				: $(NAME)
+
+run\:%			:
+					@if [ "$(subst run:,,$@)" = "server" ]; then \
+						gnome-terminal & \
+					fi
+					./$(subst run:,,$@)/$(subst run:,,$@) $(PID) $(MESS)
+
+printf			:
+					make -C $(PRINFT)
 
 %.o				: %.c
-					$(CC) -c $< -o $@
+					$(CC) $(CFLAGS) -c $< -o $@
 
-run_server			:
-						./$(NAME_1)
+$(NAME)			: $(OBJS) printf
+					make -C ./server
+					make -C ./client
 
-run_client\:%		:
-						./client $(subst run_client:,,$@)
-
-printf				:
-						make -C $(PRINFT)
-
-$(NAME_1)			: $(SERVER_OBJS) printf
-						$(CC) $(CFLAGS) $(SERVER_OBJS) -I $(PRINTF) -L $(PRINTF) -lftprintf -o $@
-
-$(NAME_2)			: $(CLIENT_OBJS) printf
-						$(CC) $(CFLAGS) $(CLIENT_OBJS) -I $(PRINTF) -L $(PRINTF) -lftprintf -o $@
-
-clean			: 
-					rm -rf $(SERVER_OBJS) $(CLIENT_OBJS)
+clean			:
+					make clean -C $(PRINFT)
+					make clean -C ./server
+					make clean -C ./client
 
 fclean			:
-					rm -rf $(NAME_1) $(NAME_2)
-
+					make fclean -C $(PRINTF)
+					make fclean -C ./server
+					make fclean -C ./client
 
 re				: fclean all
-.PHONY			: clean fclean re all
+.PHONY			: clean fclean re all $(NAME)

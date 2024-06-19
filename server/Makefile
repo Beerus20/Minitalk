@@ -4,23 +4,20 @@ OBJS			= $(FILES:%.c=%.o)
 PRINTF			= ../printf
 
 CC				= cc
-CFLAGS			= 
+CFLAGS			=
 
 all				: $(NAME)
 
 %.o				: %.c
 					$(CC) -c $< -o $@
 
-run\:%			:
-					./server $(subst run:,,$@)
-
-$(NAME)			: $(OBJS) printf
+$(NAME)			: $(OBJS)
 					$(CC) $(CFLAGS) $(OBJS) -L $(PRINTF) -lftprintf -o $@
 
-clean			: 
+clean			:
 					rm -rf $(OBJS)
 
-fclean			:
+fclean			: clean
 					rm -rf $(NAME)
 
 re				: fclean all

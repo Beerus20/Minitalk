@@ -5,6 +5,7 @@
 # include <stdlib.h>
 # include <signal.h>
 # include <unistd.h>
-# include "./printf/includes/ft_printf.h"
+# include "../printf/includes/ft_printf.h"
+# include "../ft_mtlk.h"
 
 #endif

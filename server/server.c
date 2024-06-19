@@ -1,61 +1,41 @@
 #include "server.h"
 
-// void	ft_print_bit(unsigned char c)
-// {
-//     int	i;
-
-//     i = 0;
-//     printf("\n==========================================\n");
-//     while (i < 8)
-//     {
-//         printf("bit : [%d]\n", (c >> i) % 2);
-//         i++;
-//     }
-//     printf("\n==========================================\n");
-// }
-
-// void    nothing()
-// {
-// 	int				i;
-// 	unsigned char	str;
-// 	unsigned char	test;
-
-// 	i = 8;
-// 	str = 'a';
-// 	test = 0;
-// 	while (i--)
-// 	{
-// 		test |= ((str >> i) % 2);
-// 		printf("VALUE (%d)  : [%d]\n", i, (str >> i) % 2);
-// 		if (i != 0)
-// 			test <<= 1;
-// 	}
-// 	// test >>= 1;
-// 	ft_print_bit(test);
-// 	printf("\nRESULT  : [%c]\n\n", test);
-// }
-
-void	ft_signal(int signal)
+void	ft_show_bit(char c)
 {
-	// printf("test");
-	// if (signal == SIGINT)
-	// 	printf("SIGINT active");
-	if (signal == SIGUSR1)
-		ft_printf("test\n");
-	if (signal == SIGUSR2)
-		write(1, "test2", 5);
-	// if (signal == SIGUSR2)
-	// 	printf("SIGUSR1 active");
+	int	i;
+
+	i = 8;
+	while (i--)
+	{
+		ft_printf("%d", (c >> i) % 2);
+	}
+	ft_printf("\n");
 }
- 
+
+void	ft_recept_signal(int signal)
+{
+	static unsigned char	c = 0;
+	static int				i = 8;
+
+	c |= (signal == SIGUSR1);
+	if (--i == 0)
+	{
+		ft_printf("%c", c);
+		i = 8;
+		c = 0;
+	}
+	else
+		c <<= 1;
+}
+
 int main(int argc, char **argv)
 {
 	printf("PID	: [%d]\n", getpid());
 	while (1)
 	{
-		signal(SIGUSR1, ft_signal);
-		signal(SIGUSR2, ft_signal);
-		sleep(1);
+		signal(SIGUSR1, ft_recept_signal);
+		signal(SIGUSR2, ft_recept_signal);
+		usleep(1);
 	}
 	return (0);
 }

@@ -1,10 +1,16 @@
-#include "server.h"
-#include "client.h"
+#include "ft_mtlk.h"
 
 static int	ft_isspace(const int c)
 {
 	if ((c >= 9 && c <= 13) || c == 32)
 		return (1);
+	return (0);
+}
+
+static int	ft_isdigit(int c)
+{
+	if (c >= '0' && c <= '9')
+		return (2048);
 	return (0);
 }
 
