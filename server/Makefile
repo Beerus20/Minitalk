@@ -1,9 +1,11 @@
 NAME			= server
+
 FILES			= server.c
 OBJS			= $(FILES:%.c=%.o)
 PRINTF			= ../printf
+FUNCTIONS		= ../ft_mtlk_utils.o
 
-CC				= cc
+CC				= cc -g
 CFLAGS			=
 
 all				: $(NAME)
@@ -12,7 +14,9 @@ all				: $(NAME)
 					$(CC) -c $< -o $@
 
 $(NAME)			: $(OBJS)
-					$(CC) $(CFLAGS) $(OBJS) -L $(PRINTF) -lftprintf -o $@
+					$(CC) $(CFLAGS) $(OBJS) $(FUNCTIONS) -L $(PRINTF) -lftprintf -o $@
+
+bonus			: $(NAME)
 
 clean			:
 					rm -rf $(OBJS)

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_mtlk_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ballain <ballain@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/20 15:25:32 by ballain           #+#    #+#             */
+/*   Updated: 2024/06/20 15:25:32 by ballain          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_mtlk.h"
 
 static int	ft_isspace(const int c)
@@ -37,4 +49,31 @@ int	ft_atoi(const char *nptr)
 		nptr++;
 	}
 	return (sign * result);
+}
+
+t_mess	*ft_lstnew(unsigned char content)
+{
+	t_mess	*r_value;
+
+	r_value = (t_mess *)malloc(sizeof(t_mess));
+	if (!r_value)
+		return (0);
+	r_value->content = content;
+	r_value->next = NULL;
+	return (r_value);
+}
+
+void	ft_lstadd_back(t_mess **lst, t_mess *new)
+{
+	t_mess	*tmp;
+
+	tmp = *lst;
+	if (!(*lst))
+		*lst = new;
+	else
+	{
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new;
+	}
 }

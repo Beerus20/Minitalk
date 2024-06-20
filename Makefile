@@ -16,20 +16,26 @@ run\:%			:
 					@if [ "$(subst run:,,$@)" = "server" ]; then \
 						gnome-terminal & \
 					fi
-					./$(subst run:,,$@)/$(subst run:,,$@) $(PID) $(MESS)
-
-printf			:
-					make -C $(PRINFT)
+					./$(subst run:,,$@)/$(subst run:,,$@) $(PID) "$(MESS)"
 
 %.o				: %.c
 					$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME)			: $(OBJS) printf
-					make -C ./server
-					make -C ./client
+$(NAME)			: $(OBJS)
+					@make -C $(PRINTF)
+					@make -C ./server
+					@make -C ./client
+
+bonus			: $(OBJS)
+					make -C $(PRINTF)
+					make bonus -C ./server
+					make bonus -C ./client
+
+norme			:
+					norminette
 
 clean			:
-					make clean -C $(PRINFT)
+					make clean -C $(PRINTF)
 					make clean -C ./server
 					make clean -C ./client
 
